@@ -1,0 +1,23 @@
+# Dependencies
+api/node_modules/
+
+# Environment variables and secrets
+api/.env
+api/.env.*
+!api/.env.example
+
+# Build output
+api/dist/
+api/dist-seed/
+api/build/
+api/coverage/
+
+# TypeScript cache
+api/*.tsbuildinfo
+
+# Logs
+*.log
+
+# OS and editor files
+.DS_Store
+.vscode/
