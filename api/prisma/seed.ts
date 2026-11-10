@@ -55,14 +55,29 @@ async function main() {
     { title: 'Introduction to Algorithms', author: 'Thomas H. Cormen et al.', description: 'A comprehensive introduction to computer algorithms.', genreId: technology.id },
   ];
 
-  // 3. Insert books into the database
-  await prisma.book.createMany({
-    data: books,
-    skipDuplicates: true,
+ // 3. Insert books without creating duplicates
+let insertedCount = 0;
+
+for (const book of books) {
+  const existingBook = await prisma.book.findFirst({
+    where: {
+      title: book.title,
+      author: book.author,
+    },
   });
 
-  console.log(`Successfully seeded ${books.length} books.`);
+  if (!existingBook) {
+    await prisma.book.create({
+      data: book,
+    });
+
+    insertedCount++;
+  }
 }
+
+console.log(`Successfully added ${insertedCount} new books.`);
+}
+
 main()
   .catch((error) => {
     console.error('Error seeding database:', error);
